@@ -6,7 +6,7 @@
 
 ## Overview
 
-This project estimates **implied volatility (IV)** from live UK option chain data, constructs **volatility surfaces**, and backtests **IV-driven trading strategies**. It includes an interactive web app for visualizing volatility smiles, surfaces, and backtest performance.
+This project estimates **implied volatility (IV)** from live EZU option chain data, constructs **volatility surfaces**, and backtests **IV-driven trading strategies**. It includes an interactive web app for visualizing volatility smiles, surfaces, and backtest performance.
 
 ---
 
