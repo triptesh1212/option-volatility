@@ -25,9 +25,6 @@ def get_option_data(ticker_symbol):
         df = pd.concat([calls, puts], ignore_index=True)
         df["expiration"] = pd.to_datetime(expiry)
 
-        # drops impliedVolatility from the data
-        df = df.drop(columns=["impliedVolatility"], errors="ignore")
-
         # remove missing values
         df = df.dropna(subset=["strike", "lastPrice", "bid", "ask"])
 
