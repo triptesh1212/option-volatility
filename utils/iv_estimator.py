@@ -1,39 +1,7 @@
 import numpy as np
 import pandas as pd 
-from scipy.stats import norm
-from scipy.optimize import brentq 
-
-
-# Black-Scholes Pricing Formula
-
-# S	- Spot Price - The current price of the underlying asset
-
-# K	- Strike Price	- The fixed price at which the option can be exercised
-
-# T	- Time to Expiry -	Time until the option expires
-
-# r	- Risk-Free Interest Rate - The annualized risk-free interest rate 
-
-# sigma - IV -	The implied volatility of the underlying asset 
-
-# option_type -	Option Type	"call" or "put" 
-
-def calculate_price(S, K, T, r, sigma, option_type):
-    
-    if S <= 0 or K <= 0 or T <= 0 or sigma <= 0:
-        return 0.0
-
-    d1 = (np.log(S / K) + (r + 0.5 * sigma ** 2) * T) / (sigma * np.sqrt(T))
-    
-    d2 = d1 - sigma * np.sqrt(T)
-
-    if option_type == "call":
-        return S * norm.cdf(d1) - K * np.exp(-r * T) * norm.cdf(d2)
-    elif option_type == "put":
-        return K * np.exp(-r * T) * norm.cdf(-d2) - S * norm.cdf(-d1)
-    else:
-        raise Exception("option_type must be 'call' or 'put'")
-    
+from scipy.optimize import brentq     
+from pricing_models.binomial_tree import calculate_price_bt
 
 # Brent's Method to Estimate IV 
 def implied_volatility_brent(market_price, S, K, T, r, option_type):
@@ -42,7 +10,7 @@ def implied_volatility_brent(market_price, S, K, T, r, option_type):
         return np.nan
 
     try:
-        objective = lambda sigma: calculate_price(S, K, T, r, sigma, option_type) - market_price
+        objective = lambda sigma: calculate_price_bt(S, K, T, r, sigma, 100, option_type) - market_price
         iv = brentq(objective, 1e-5, 5.0, maxiter=1500)
         return iv
     except Exception:

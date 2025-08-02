@@ -2,9 +2,9 @@ from utils.fetch_option_data import get_option_data
 from utils.fetch_spot_price import get_spot_price
 from utils.iv_estimator import estimate_iv
 
-df = get_option_data("EZU")
+df = get_option_data("SPY", 10)
 
-spot_price = get_spot_price("EZU")
+spot_price = get_spot_price("SPY")
 
 df_iv = estimate_iv(df, spot_price, 0.01)
 
