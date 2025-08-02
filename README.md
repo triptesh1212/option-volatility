@@ -13,5 +13,7 @@ This project estimates **implied volatility (IV)** from live EZU option chain da
 ## Features
 
 - **Live Option Chain Fetching** via yfinance APIs
-- **Implied Volatility Estimation** using Black-Scholes
+- **Implied Volatility Estimation** with Brent's Method
+  - Pricing European options using Black-Scholes formula
+  - Estimates implied volatility from mid-market option prices
 
