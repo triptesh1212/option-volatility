@@ -12,11 +12,7 @@ def apply_kalman_filter(series):
     return smoothed_state_means.flatten()
 
 def smooth_iv_over_time(df, plot_sample=False):
-
-    print(df.head())
-   
-    df = df.copy()
-
+    
     df = df.sort_values(by=["strike", "expiration", "date"])
 
     smoothed = []

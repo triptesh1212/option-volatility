@@ -19,9 +19,9 @@ success_rate = 100 * total_non_nan_iv / len(df)
 
 print(f"IV Estimation Converge Rate: {success_rate:.2f}%")
 
-df_non_nan = df_iv[df_iv["iv_brent"].notna()]
+df_iv_non_nan = df_iv[df_iv["iv_brent"].notna()]
 
-comparison = df_non_nan[["strike", "option_type", "iv_brent", "impliedVolatility"]].copy()
+comparison = df_iv_non_nan[["strike", "option_type", "iv_brent", "impliedVolatility"]].copy()
 comparison = comparison.rename(columns={
     "iv_brent": "estimated_iv",
     "impliedVolatility": "yahoo_iv"
@@ -29,10 +29,6 @@ comparison = comparison.rename(columns={
 
 print(comparison.head(20))
 
-#plot_iv_smiles(df_iv, 'call')
+#plot_iv_smiles(df_iv_non_nan, 'call')
 
-#plot_vol_surface(df_iv, 'call')
-
-df = smooth_iv_over_time(df_non_nan, plot_sample=True)
-
-print(df[["strike", "expiration", "iv_brent", "iv_smoothed"]].head())
+#plot_vol_surface(df_iv_non_nan, 'call')
