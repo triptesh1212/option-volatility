@@ -3,6 +3,7 @@ from utils.fetch_spot_price import get_spot_price
 from utils.iv_estimator import estimate_iv
 from volatility_surfaces.vol_surface_2d import plot_iv_smiles
 from volatility_surfaces.vol_surface_3d import plot_vol_surface
+from utils.kalman_filter import smooth_iv_over_time
 
 df = get_option_data("SPY", 10)
 
@@ -31,3 +32,7 @@ print(comparison.head(20))
 #plot_iv_smiles(df_iv, 'call')
 
 #plot_vol_surface(df_iv, 'call')
+
+df = smooth_iv_over_time(df_non_nan, plot_sample=True)
+
+print(df[["strike", "expiration", "iv_brent", "iv_smoothed"]].head())
