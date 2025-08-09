@@ -1,8 +1,6 @@
 import yfinance as yf
 import pandas as pd
-
-import yfinance as yf
-import pandas as pd
+from datetime import datetime
 
 def get_option_data(ticker_symbol, num_expiries):
     try:
@@ -13,6 +11,7 @@ def get_option_data(ticker_symbol, num_expiries):
             raise Exception(f"no option expiries found for {ticker_symbol}")
 
         df_list = []
+        fetched_time = pd.Timestamp(datetime.now())
 
         for expiry in expiries[:num_expiries]:
             try:
@@ -26,6 +25,7 @@ def get_option_data(ticker_symbol, num_expiries):
 
                 current_df = pd.concat([calls, puts], ignore_index=True)
                 current_df["expiration"] = pd.to_datetime(expiry)
+                current_df["date"] = fetched_time 
 
                 # drop rows with missing price data
                 current_df = current_df.dropna(subset=["strike", "lastPrice", "bid", "ask"])
