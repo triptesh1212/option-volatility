@@ -13,12 +13,12 @@ def apply_kalman_filter(series):
 
 def smooth_iv_over_time(df, plot_sample=False):
     
-    df = df.sort_values(by=["strike", "expiration", "date"])
+    df = df.sort_values(by=["strike", "expiration", "lastTradeDate"])
 
     smoothed = []
 
     for (strike, expiration), group in df.groupby(["strike", "expiration"]):
-        group = group.sort_values("date")
+        group = group.sort_values("lastTradeDate")
 
         if len(group) < 3:
             smoothed.extend([np.nan] * len(group))
@@ -29,8 +29,8 @@ def smooth_iv_over_time(df, plot_sample=False):
             smoothed.extend(smoothed_iv)
 
             if plot_sample and np.random.rand() < 0.01:
-                plt.plot(group["date"], group["iv_brent"], label="original", marker='o')
-                plt.plot(group["date"], smoothed_iv, label="smoothed", marker='x')
+                plt.plot(group["lastTradeDate"], group["iv_brent"], label="original", marker='o')
+                plt.plot(group["lastTradeDate"], smoothed_iv, label="smoothed", marker='x')
                 plt.title(f"Strike: {strike}, Expiry: {expiration.date()}")
                 plt.legend()
                 plt.xticks(rotation=45)
