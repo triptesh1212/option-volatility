@@ -6,14 +6,26 @@
 
 ## Overview
 
-This project estimates **implied volatility (IV)** from live SPY option chain data, constructs **volatility surfaces**, and backtests **IV-driven trading strategies**. It includes an interactive web app for visualizing volatility smiles, surfaces, and backtest performance.
+This project estimates **implied volatility (IV)** from SPY option chain data and backtests **IV-driven trading strategies**.
+
+**[WIP]** An interactive web app for visualizing volatility smiles, surfaces, and backtest performance.
 
 ---
 
 ## Features
 
 - **Live Option Chain Fetching** via yfinance APIs
+  
 - **Implied Volatility Estimation** with Brent's Method
   - Pricing American options using Binomial Tree Model
   - Estimates implied volatility from mid-market option prices
+    
+- **Volatility Surfaces Construction** using Cubic Interpolation
 
+- **IV Time Series Smoothening** using Kalman Filters
+
+- **IV–HV arbitrage, Skew, Calendar Spread** strategies Backtesting
+
+---
+
+## Historical Backtesting Results: SPY Option Chain (2020–2022)
