@@ -5,7 +5,6 @@ import os
 
 def backtest_iv_hv_arbitrage(df_kalman, window, threshold, plot=True):
     
-    # Prepare daily data
     df_kalman = df_kalman.copy()
     df_kalman['date'] = df_kalman['lastTradeDate']
     
@@ -31,7 +30,12 @@ def backtest_iv_hv_arbitrage(df_kalman, window, threshold, plot=True):
 
     # Calculate metrics
     cumulative_pnl = df_daily['daily_pnl'].cumsum()
-    sharpe_ratio = np.sqrt(252) * df_daily['daily_pnl'].mean() / df_daily['daily_pnl'].std()
+
+    daily_std = df_daily['daily_pnl'].std()
+    sharpe_ratio = np.sqrt(252) * df_daily['daily_pnl'].mean() / daily_std if daily_std != 0 else 0
+
+    cumulative_pnl = df_daily['daily_pnl'].cumsum().fillna(0)
+
     rolling_max = cumulative_pnl.cummax()
     max_drawdown = (cumulative_pnl - rolling_max).min()
     total_trades = (df_daily['signal'].diff().abs() > 0).sum()
@@ -55,7 +59,7 @@ def backtest_iv_hv_arbitrage(df_kalman, window, threshold, plot=True):
         output_dir = "plots"
         os.makedirs(output_dir, exist_ok=True)
 
-        plt.savefig(os.path.join(output_dir, "iv_hv_strategy_performance.png"), dpi=300, bbox_inches='tight')
+        plt.savefig(os.path.join(output_dir, "iv_hv_arbitrage.png"), dpi=300, bbox_inches='tight')
         plt.show()
 
     return {
