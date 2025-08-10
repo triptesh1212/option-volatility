@@ -29,8 +29,8 @@ def get_historical_data() :
 
     call_df['days_to_expiry'] = (call_df['expiration'] - call_df['lastTradeDate']).dt.days
 
-    # Filter for 2 to 4 weeks to expiry
-    filtered_call_df = call_df[(call_df['days_to_expiry'] >= 14) & (call_df['days_to_expiry'] <= 28)]
+    # Filter for 2 to 6 weeks to expiry
+    filtered_call_df = call_df[(call_df['days_to_expiry'] >= 14) & (call_df['days_to_expiry'] <= 42)]
 
     # Sort by lastTradeDate
     filtered_call_df = filtered_call_df.sort_values('lastTradeDate')
@@ -38,18 +38,18 @@ def get_historical_data() :
     # Group by lastTradeDate and pick the largest group
     group_sizes = filtered_call_df['lastTradeDate'].value_counts().sort_values(ascending=False)
 
-    # Choose the top N dates that contribute to about 200k rows
+    # Choose the top N dates that contribute to about 400k rows
     selected_dates = []
     total_rows = 0
     for date, count in group_sizes.items():
-        if total_rows >= 200000:
+        if total_rows >= 400000:
             break
         selected_dates.append(date)
         total_rows += count
 
     filtered_call_df = filtered_call_df[filtered_call_df['lastTradeDate'].isin(selected_dates)]
 
-    filtered_call_df = filtered_call_df.sample(n=200000, random_state=42) if len(filtered_call_df) > 200000 else filtered_call_df
+    filtered_call_df = filtered_call_df.sample(n=400000, random_state=42) if len(filtered_call_df) > 400000 else filtered_call_df
 
 
     # put_df = df[['[STRIKE]', '[P_LAST]', '[P_BID]', '[P_ASK]', '[P_VOLUME]', '[UNDERLYING_LAST]', 'lastTradeDate', 'expiration']].copy()
