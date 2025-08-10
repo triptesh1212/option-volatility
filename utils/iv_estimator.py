@@ -28,7 +28,7 @@ def estimate_row_iv(row, spot_price, r):
     return estimated_iv
     
 
-def estimate_iv(option_df, spot_price, r):
+def estimate_iv_from_live_data(option_df, spot_price, r):
     
     df = option_df.copy()
 
@@ -39,5 +39,25 @@ def estimate_iv(option_df, spot_price, r):
     df["time_to_expiry"] = (df["expiration"] - pd.Timestamp.today()).dt.total_seconds() / (365 * 24 * 60 * 60)
 
     df["iv_brent"] = df.apply(lambda row: estimate_row_iv(row, spot_price, r), axis=1)
+
+    return df
+
+def estimate_iv_from_historical_data(option_df, r):
+    
+    df = option_df.copy()
+
+    print("number of rows = ", len(df))
+
+    # convert to numeric
+    df['bid'] = pd.to_numeric(df['bid'], errors='coerce')
+    df['ask'] = pd.to_numeric(df['ask'], errors='coerce')
+
+    # market price 
+    df["mid_price"] = (df["bid"] + df["ask"]) / 2
+
+    # time to expiry in years
+    df["time_to_expiry"] = (df["expiration"] - df["lastTradeDate"]).dt.total_seconds() / (365 * 24 * 60 * 60)
+
+    df["iv_brent"] = df.apply(lambda row: estimate_row_iv(row, row['underlying_price'], r), axis=1)
 
     return df
