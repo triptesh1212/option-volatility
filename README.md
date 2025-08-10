@@ -13,8 +13,6 @@ This project estimates **implied volatility (IV)** from SPY option chain data an
 ---
 
 ## Features
-
-- **Live Option Chain Fetching** via yfinance APIs
   
 - **Implied Volatility Estimation** with Brent's Method
   - Pricing American options using Binomial Tree Model
@@ -36,6 +34,6 @@ The backtesting was conducted on SPY options from 2020 to 2022. Only option cont
 
 | HV Window Size        | Sharpe Ratio  | P&L     | Max Drawdown | 
 |-----------------------|---------------|---------|--------------|
-| 20 | TODO | TODO | TODO |
-| 30 | 1.55 | 2.41 % | -20.73 % |
-| 40 | TODO | TODO | TODO |
+| 20 | 0.81 | 1.56 % | -34.07 % |
+| 30 | 1.24 | 2.41 % | -20.73 % |
+| 40 | 1.08 | 2.03 % | -12.73 % |
