@@ -22,7 +22,7 @@ This project estimates **implied volatility (IV)** from SPY option chain data an
 
 - **IV Time Series Smoothening** using Kalman Filters
 
-- **IV–HV arbitrage, Skew, Calendar Spread** strategies Backtesting
+- **IV–HV arbitrage, Calendar Spread** strategies Backtesting
 
 ---
 
@@ -37,3 +37,14 @@ The backtesting was conducted on SPY options from 2020 to 2022. Only option cont
 | 20 | 0.81 | 1.56 % | -34.07 % |
 | 30 | 1.24 | 2.41 % | -20.73 % |
 | 40 | 1.08 | 2.03 % | -12.73 % |
+
+
+**Vega-Based Calendar Spread Strategy**
+
+Backtesting was performed on SPY option chains from 2020 to 2022. Trades involved selling a short-term option and buying a longer-term option with the same strike price, filtered by short expiry **15–25 days** and long expiry **40–54 days**. Positions were selected based on **vega exposure** estimated using a binomial pricing model.
+
+| Vega Threshold | Sharpe Ratio  | P&L     | Max Drawdown | Total Trades | 
+|----------------|---------------|---------|--------------|--------------|
+| > 0.05 | 0.60 | 2.09 % | -13.10 % | 27776 |
+| > 0.5 | 1.12 | 11.47 % | -13.10 % | 26736 |
+| > 0.8 | 1.35 | 15.75 % | -11.41 % | 26024 |
