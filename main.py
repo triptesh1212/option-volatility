@@ -8,7 +8,7 @@ from volatility_surfaces.vol_surface_3d import plot_vol_surface
 from utils.kalman_filter import smooth_iv_over_time
 from utils.load_historical_data import get_historical_data_for_iv_hv, get_historical_data_for_calendar_spread
 from strategies.iv_hv import backtest_iv_hv_arbitrage
-from strategies.calendar_spread import backtest_iv_hv_arbitrage
+from strategies.calendar_spread import backtest_calendar_spread
 
 
 # <---- live data ----->
@@ -103,17 +103,14 @@ for s, e in intervals:
 df_list = []
 
 for s, e in intervals:
-
     path = f"dataset/calendar_spread_{s}_{e}.csv"
-
     if os.path.exists(path):
         df_temp = pd.read_csv(path)
         df_list.append(df_temp)
         
 df_kalman = pd.concat(df_list, ignore_index=True)
 
-
-metrics = backtest_iv_hv_arbitrage(
+metrics = backtest_calendar_spread(
     df_kalman, 
     short_dte_range=(15,25), 
     long_dte_range=(40,54), 
